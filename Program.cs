@@ -474,11 +474,19 @@ namespace GitDepsPacker
 
 		private static ISet<string> RemoveGitFiles(string RootPath, ISet<string> FoundFiles)
 		{
-#if __MonoCS__
-			string git = FindExeFromPath("git");
-#else
-			string git = FindExeFromPath("git.exe");
-#endif
+			string git = "";
+			int pid = (int) Environment.OSVersion.Platform;
+
+			if (pid == 4 || pid == 6 || pid == 128) 
+			{
+				// 4, 6, and 128 mean Unix, 6 is specific to macOS
+				git = FindExeFromPath ("git");
+			} 
+			else 
+			{
+				git = FindExeFromPath("git.exe");
+			}
+
 			if (git == null) 
 			{
 				throw new FileNotFoundException("Can't get find git executable");
