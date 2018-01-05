@@ -475,11 +475,9 @@ namespace GitDepsPacker
 		private static ISet<string> RemoveGitFiles(string RootPath, ISet<string> FoundFiles)
 		{
 			string git = "";
-			int pid = (int) Environment.OSVersion.Platform;
 
-			if (pid == 4 || pid == 6 || pid == 128) 
+			if (Environment.OSVersion.Platform == System.PlatformID.Unix) 
 			{
-				// 4, 6, and 128 mean Unix, 6 is specific to macOS
 				git = FindExeFromPath ("git");
 			} 
 			else 
